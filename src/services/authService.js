@@ -13,12 +13,12 @@ const authService = {
     return publicUser
   },
 
-  createUser: async (rol, nombres, apellidos, email, password) => {
+  createUser: async (rolId, nombres, apellidos, email, password) => {
     const user = await modelUser.findUserByEmail(email)
     if (user) throw new Error('El usuario ya existe')
 
     const hashedPassword = await hashPassword(password)
-    const newUser = await modelUser.createUser({ rol, nombres, apellidos, email, password: hashedPassword })
+    const newUser = await modelUser.createUser({ rolId, nombres, apellidos, email, password: hashedPassword })
     if (!newUser) throw new Error('Error al crear el usuario')
     return newUser
   },

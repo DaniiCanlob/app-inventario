@@ -8,7 +8,7 @@ const loginSchema = z.object({
 })
 
 const registerSchema = z.object({
-  roles_id: z.string().min(1, 'El id del rol es requerido'),
+  rolId: z.string().min(1, 'El id del rol es requerido'),
   nombres: z.string().min(3, 'El nombre de usuario debe tener al menos 3 caracteres'),
   apellidos: z.string().min(3, 'El apellido de usuario debe tener al menos 3 caracteres'),
   email: z.string().email('Formato del email no válido'),
@@ -39,9 +39,8 @@ const authController = {
   register: async (req, res) => {
     try {
       registerSchema.parse(req.body)
-      // eslint-disable-next-line camelcase
-      const { roles_id, nombres, apellidos, email, password } = req.body
-      const dataUser = await authService.createUser(roles_id, nombres, apellidos, email, password)
+      const { rolId, nombres, apellidos, email, password } = req.body
+      const dataUser = await authService.createUser(rolId, nombres, apellidos, email, password)
       return res.status(201).json({ message: 'Usuario creado', data: dataUser })
     } catch (err) {
       return res.status(400).json({ message: 'No se pudo registrar el usuario', error: err.errors })
